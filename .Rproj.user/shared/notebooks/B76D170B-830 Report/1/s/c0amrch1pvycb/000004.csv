@@ -1,3 +1,0 @@
-"0","ggplot(c) + "
-"0","  geom_boxplot(aes(x = Q14, y = `%`)) + "
-"0","  labs(x = ""Habits"")"

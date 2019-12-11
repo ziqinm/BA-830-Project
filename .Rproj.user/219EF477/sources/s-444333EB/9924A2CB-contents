@@ -39,6 +39,7 @@ Our null hypothesis is that listening to music has no effect on people's instant
 library(data.table)
 library(tidyverse)
 library(readxl)
+library(lfe)
 
 tr = read_excel("Treatment.xlsx")
 colnames(tr)
@@ -66,40 +67,75 @@ table = fread("data.csv")
 2. Summary statistics
 
 ```{r}
+t = tableF[Treatment == 1]
 ggplot(t) + 
-  geom_boxplot(aes(x = Q14, y = `Accuracy in %`)) + 
+  geom_boxplot(aes(x = Q14, y = Accuracy)) + 
   labs(x = "Habits")
 ```
 
 ```{r}
+c = tableF[Treatment == 0]
 ggplot(c) + 
-  geom_boxplot(aes(x = Q14, y = `%`)) + 
+  geom_boxplot(aes(x = Q14, y = Accuracy)) + 
   labs(x = "Habits")
 ```
 
 ```{r}
 ggplot(t) +
-  geom_histogram(aes(`Accuracy in %`))
+  geom_histogram(aes(Accuracy))
 ```
 
 ```{r}
 ggplot(c) + 
-  geom_histogram(aes(`%`))
+  geom_histogram(aes(Accuracy))
 ```
 
 
 ### e. Treatment effects
 
+
 ```{r}
-library(lfe)
-reg = felm(Accuracy ~ Treatment, data = table)
-summary(reg)
+trF = read_excel("Treatment-FULL.xlsx")
+colnames(trF)
+trF_c = trF %>% select(`Accuracy in %`, Q13, Q14, Q15)
+trF_c = trF_c[-1, ]
+names(trF_c)[1] = "Accuracy"
+trF_c$Treatment = 1
+
+
+ctrlF = read_excel("Control-FULL.xlsx")
+colnames(ctrlF)
+ctrlF_c = ctrlF %>% select(`%`, Q13, Q14, Q15)
+ctrlF_c = ctrlF_c[-1, ]
+names(ctrlF_c)[1] = "Accuracy"
+ctrlF_c$Treatment = 0
+
+dataF = rbind(trF_c, ctrlF_c)
+write.csv(dataF, "dataF.csv")
+tableF = fread("dataF.csv")
+open = c()
+for (i in nrow(tableF)) {
+ open = ifelse(is.na(tableF$Q13), 0, 1)
+}
+open
+tableF$open = open
+```
+
+
+```{r}
+summary(felm(Accuracy ~ Treatment, data = tableF))
 ```
 
 ```{r}
-regF = felm(Accuracy ~ Treatment | Q14, data = table)
-summary(regF)
+summary(felm(Accuracy ~ Treatment | Q14, data = tableF))
 ```
+Found that whether participants listen to music when studying is not a fixed effect in this experiment.
+
+
+```{r}
+summary(felm(Accuracy ~ 1 | 0 | (open ~ Treatment), data = tableF))
+```
+Conclusion: Listening to music can increase instant memory. 
 
 
 ### f. Limitations of your study.
@@ -119,6 +155,8 @@ Example:
 [earbuds, location, volume]
 
 [sample size too small]
+
+[Survey Design]: no sound in control's link, so participants in control group might be distracted or confused by the silence, thus reducing their time available to memorize. 
 
 
 
