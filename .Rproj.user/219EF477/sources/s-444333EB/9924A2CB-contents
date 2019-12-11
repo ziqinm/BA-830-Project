@@ -33,8 +33,74 @@ Our null hypothesis is that listening to music has no effect on people's instant
 
 ### d. Summary statistics about the data.
 
+1. Load the data
+
+```{r}
+library(data.table)
+library(tidyverse)
+library(readxl)
+
+tr = read_excel("Treatment.xlsx")
+colnames(tr)
+tr_c = tr %>% select(`Accuracy in %`, Q13, Q14, Q15)
+tr_c = tr_c[-1, ]
+names(tr_c)[1] = "Accuracy"
+tr_c$Treatment = 1
+# write.csv(tr_c, "Treatment_c.csv")
+# t = fread("Treatment_c.csv")
+
+ctrl = read_excel("Control.xlsx")
+colnames(ctrl)
+ctrl_c = ctrl %>% select(`%`, Q13, Q14, Q15)
+ctrl_c = ctrl_c[-1, ]
+names(ctrl_c)[1] = "Accuracy"
+ctrl_c$Treatment = 0
+# write.csv(ctrl_c, "Control_c.csv")
+# c = fread("Control_c.csv")
+
+data = rbind(tr_c, ctrl_c)
+write.csv(data, "data.csv")
+table = fread("data.csv")
+```
+
+2. Summary statistics
+
+```{r}
+ggplot(t) + 
+  geom_boxplot(aes(x = Q14, y = `Accuracy in %`)) + 
+  labs(x = "Habits")
+```
+
+```{r}
+ggplot(c) + 
+  geom_boxplot(aes(x = Q14, y = `%`)) + 
+  labs(x = "Habits")
+```
+
+```{r}
+ggplot(t) +
+  geom_histogram(aes(`Accuracy in %`))
+```
+
+```{r}
+ggplot(c) + 
+  geom_histogram(aes(`%`))
+```
+
 
 ### e. Treatment effects
+
+```{r}
+library(lfe)
+reg = felm(Accuracy ~ Treatment, data = table)
+summary(reg)
+```
+
+```{r}
+regF = felm(Accuracy ~ Treatment | Q14, data = table)
+summary(regF)
+```
+
 
 ### f. Limitations of your study.
 
@@ -51,6 +117,8 @@ Example:
 - memorizing time may be different
 
 [earbuds, location, volume]
+
+[sample size too small]
 
 
 
