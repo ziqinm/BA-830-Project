@@ -64,7 +64,7 @@ write.csv(dataF, "Data/dataF.csv")
 tableF = fread("Data/dataF.csv")
 open = c()
 for (i in nrow(tableF)) {
- open = ifelse(is.na(tableF$Q13), 0, 1)
+ open = ifelse(is.na(tableF$Accuracy), 0, 1)
 }
 open
 tableF$open = open
@@ -111,9 +111,14 @@ Found that whether participants listen to music when studying is not a fixed eff
 
 
 ```{r}
-summary(felm(Accuracy ~ 1 | 0 | (open ~ Treatment), data = tableF))
+summary(felm(Accuracy ~ Treatment * Q14, data = tableF))
 ```
 Conclusion: Listening to music can increase instant memory. 
+
+```{r}
+summary(felm(Accuracy ~ Treatment | Q13, data = tableF))
+```
+
 
 ---------------------------------
 
