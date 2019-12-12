@@ -38,13 +38,13 @@ d. Summary statistics about the data.
 
 1. Load the data
 
-```{r}
+```{r warning = FALSE, include = FALSE, message = FALSE}
 library(data.table)
 library(tidyverse)
 library(readxl)
 library(lfe)
 
-trF = read_excel("Treatment-FULL.xlsx")
+trF = read_excel("Data/Treatment-FULL.xlsx")
 colnames(trF)
 trF_c = trF %>% select(`Accuracy in %`, Q13, Q14, Q15)
 trF_c = trF_c[-1, ]
@@ -52,7 +52,7 @@ names(trF_c)[1] = "Accuracy"
 trF_c$Treatment = 1
 
 
-ctrlF = read_excel("Control-FULL.xlsx")
+ctrlF = read_excel("Data/Control-FULL.xlsx")
 colnames(ctrlF)
 ctrlF_c = ctrlF %>% select(`%`, Q13, Q14, Q15)
 ctrlF_c = ctrlF_c[-1, ]
@@ -60,8 +60,8 @@ names(ctrlF_c)[1] = "Accuracy"
 ctrlF_c$Treatment = 0
 
 dataF = rbind(trF_c, ctrlF_c)
-write.csv(dataF, "dataF.csv")
-tableF = fread("dataF.csv")
+write.csv(dataF, "Data/dataF.csv")
+tableF = fread("Data/dataF.csv")
 open = c()
 for (i in nrow(tableF)) {
  open = ifelse(is.na(tableF$Q13), 0, 1)
@@ -99,35 +99,6 @@ ggplot(c) +
 -----------------------------
 
 e. Treatment effects
-
-
-```{r}
-trF = read_excel("Treatment-FULL.xlsx")
-colnames(trF)
-trF_c = trF %>% select(`Accuracy in %`, Q13, Q14, Q15)
-trF_c = trF_c[-1, ]
-names(trF_c)[1] = "Accuracy"
-trF_c$Treatment = 1
-
-
-ctrlF = read_excel("Control-FULL.xlsx")
-colnames(ctrlF)
-ctrlF_c = ctrlF %>% select(`%`, Q13, Q14, Q15)
-ctrlF_c = ctrlF_c[-1, ]
-names(ctrlF_c)[1] = "Accuracy"
-ctrlF_c$Treatment = 0
-
-dataF = rbind(trF_c, ctrlF_c)
-write.csv(dataF, "dataF.csv")
-tableF = fread("dataF.csv")
-open = c()
-for (i in nrow(tableF)) {
- open = ifelse(is.na(tableF$Q13), 0, 1)
-}
-open
-tableF$open = open
-```
-
 
 ```{r}
 summary(felm(Accuracy ~ Treatment, data = tableF))
