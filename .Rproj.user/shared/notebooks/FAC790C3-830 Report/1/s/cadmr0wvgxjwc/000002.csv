@@ -1,0 +1,22 @@
+"0","```r
+summary(felm(Accuracy ~ Treatment|Q13, data = tableF))
+```"
+"1","
+Call:
+   felm(formula = Accuracy ~ Treatment | Q13, data = tableF) 
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.36435 -0.16721 -0.00178  0.13565  0.69822 
+
+Coefficients:
+          Estimate Std. Error t value Pr(>|t|)
+Treatment  0.06257    0.05870   1.066    0.291
+
+Residual standard error: 0.2267 on 61 degrees of freedom
+  (37 observations deleted due to missingness)
+Multiple R-squared(full model): 0.01931   Adjusted R-squared: -0.01285 
+Multiple R-squared(proj model): 0.01828   Adjusted R-squared: -0.0139 
+F-statistic(full model):0.6004 on 2 and 61 DF, p-value: 0.5518 
+F-statistic(proj model): 1.136 on 1 and 61 DF, p-value: 0.2907 
+"

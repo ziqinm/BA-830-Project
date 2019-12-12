@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576170367674.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2949733647",
+    "id" : "5A667B7",
+    "lastKnownWriteTime" : 1576175767,
+    "last_content_update" : 1576175767686,
+    "path" : "~/Documents/GitHub/BA-830-Project/830 Report.Rmd",
+    "project_path" : "830 Report.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "56,0",
+        "scrollLine" : "42",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

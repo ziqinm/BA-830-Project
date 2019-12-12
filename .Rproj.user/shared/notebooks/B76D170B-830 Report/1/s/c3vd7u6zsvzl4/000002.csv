@@ -1,0 +1,5 @@
+"0","t = tableF[Treatment == 1]"
+"0","ggplot(t) +"
+"0","  geom_histogram(aes(Accuracy)) + "
+"0","  labs(title = ""Treatment"") +"
+"0","  theme_bw()"

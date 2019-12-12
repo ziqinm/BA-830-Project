@@ -1,0 +1,29 @@
+"0","```r
+reg1 = felm(Accuracy ~ Treatment, data = tableF)
+summary(reg1)
+```"
+"1","
+Call:
+   felm(formula = Accuracy ~ Treatment, data = tableF) 
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.3675 -0.1675 -0.0080  0.1325  0.6920 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.30800    0.04469   6.891 3.09e-09 ***
+Treatment    0.05950    0.05697   1.044      0.3    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.2235 on 63 degrees of freedom
+  (36 observations deleted due to missingness)
+Multiple R-squared(full model): 0.01702   Adjusted R-squared: 0.001414 
+Multiple R-squared(proj model): 0.01702   Adjusted R-squared: 0.001414 
+F-statistic(full model):1.091 on 1 and 63 DF, p-value: 0.3003 
+F-statistic(proj model): 1.091 on 1 and 63 DF, p-value: 0.3003 
+"
+"0","```r
+# stargazer(reg1, type = \"text\", out = \"reg1.txt\")
+```"
