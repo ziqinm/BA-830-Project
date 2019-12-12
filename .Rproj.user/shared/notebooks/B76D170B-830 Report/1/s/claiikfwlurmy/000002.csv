@@ -1,4 +1,4 @@
-"0","summary(felm(Accuracy ~ Treatment | Q13, data = tableF))"
+"0","summary(felm(Accuracy ~ Treatment|Q13, data = tableF))"
 "1","
 Call:
   "

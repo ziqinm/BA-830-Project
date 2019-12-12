@@ -111,12 +111,12 @@ Found that whether participants listen to music when studying is not a fixed eff
 
 
 ```{r}
-summary(felm(Accuracy ~ Treatment * Q14, data = tableF))
+summary(felm(Accuracy ~ Treatment+Q14, data = tableF))
 ```
 Conclusion: Listening to music can increase instant memory. 
 
 ```{r}
-summary(felm(Accuracy ~ Treatment | Q13, data = tableF))
+summary(felm(Accuracy ~ Treatment|Q13, data = tableF))
 ```
 
 
