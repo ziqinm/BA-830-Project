@@ -1,4 +1,0 @@
-"0","t = tableF[Treatment == 1]"
-"0","ggplot(t) + "
-"0","  geom_boxplot(aes(x = Q14, y = Accuracy)) + "
-"0","  labs(x = ""Habits"")"

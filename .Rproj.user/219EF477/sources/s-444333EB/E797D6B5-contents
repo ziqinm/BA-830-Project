@@ -16,7 +16,7 @@ We are interested in the potential causal effects of listening to music on insta
 
 b. Your experimental design and what data you collected.
 
-Our null hypothesis is that listening to music has no effect on people's instant memory. The alternative hypothesis states that there exists effect of.
+Our null hypothesis is that listening to music has no causal effect on people's instant memory. 
 
 [design]
 
@@ -43,6 +43,7 @@ library(data.table)
 library(tidyverse)
 library(readxl)
 library(lfe)
+library(stargazer)
 
 trF = read_excel("Data/Treatment-FULL.xlsx")
 colnames(trF)
@@ -73,33 +74,35 @@ tableF$open = open
 2. Summary statistics
 
 ```{r}
-library(stargazer)
-stargazer(tableF, type = "text", title = "Descriptive Analysis", digits = 2, out = "des.txt")
-```
-
-
-```{r}
 t = tableF[Treatment == 1]
 ggplot(t) + 
   geom_boxplot(aes(x = Q14, y = Accuracy)) + 
-  labs(x = "Habits")
+  labs(x = "Habits",
+       title = "Treatment") + 
+  theme_bw()
 ```
 
 ```{r}
 c = tableF[Treatment == 0]
 ggplot(c) + 
   geom_boxplot(aes(x = Q14, y = Accuracy)) + 
-  labs(x = "Habits")
+  labs(x = "Habits",
+       title = "Control") + 
+  theme_bw()
 ```
 
 ```{r}
 ggplot(t) +
-  geom_histogram(aes(Accuracy))
+  geom_histogram(aes(Accuracy)) + 
+  labs(title = "Treatment") +
+  theme_bw()
 ```
 
 ```{r}
 ggplot(c) + 
-  geom_histogram(aes(Accuracy))
+  geom_histogram(aes(Accuracy)) + 
+  labs(title = "Control") +
+  theme_bw()
 ```
 
 -----------------------------
@@ -109,13 +112,13 @@ e. Treatment effects
 ```{r}
 reg1 = felm(Accuracy ~ Treatment, data = tableF)
 summary(reg1)
-stargazer(reg1, type = "text", out = "reg1.txt")
+# stargazer(reg1, type = "text", out = "reg1.txt")
 ```
 
 ```{r}
 reg2 = felm(Accuracy ~ Treatment | Q14, data = tableF)
 summary(reg2)
-stargazer(reg2, type = "text", out = "reg2.txt")
+# stargazer(reg2, type = "text", out = "reg2.txt")
 ```
 Found that whether participants listen to music when studying is not a fixed effect in this experiment.
 
@@ -123,12 +126,14 @@ Found that whether participants listen to music when studying is not a fixed eff
 ```{r}
 summary(felm(Accuracy ~ Treatment+Q14, data = tableF))
 ```
-Conclusion: Listening to music can increase instant memory. 
+Q14 is not a covariate either.
 
 ```{r}
 summary(felm(Accuracy ~ Treatment|Q13, data = tableF))
 ```
+Q13 is not a fixed effect.
 
+Conclusion: listening to music has no effect on the memory accuracy.
 
 ---------------------------------
 
