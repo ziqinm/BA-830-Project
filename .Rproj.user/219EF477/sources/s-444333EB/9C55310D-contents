@@ -1,7 +1,9 @@
 ---
 title: "BA 830 Experiment Report"
-author: " Cohort A Team 8: Huiying Ba, Danting Huang, Ziqin Ma, Jiao Sun, Senbo Zhang"
-output: html_notebook
+author: ' Cohort A Team 8: Huiying Ba, Danting Huang, Ziqin Ma, Jiao Sun, Senbo Zhang'
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 a. Your causal question of interest.
@@ -44,30 +46,27 @@ library(tidyverse)
 library(readxl)
 library(lfe)
 
-trF = read_excel("Treatment-FULL.xlsx")
-colnames(trF)
-trF_c = trF %>% select(`Accuracy in %`, Q13, Q14, Q15)
-trF_c = trF_c[-1, ]
-names(trF_c)[1] = "Accuracy"
-trF_c$Treatment = 1
-
-
-ctrlF = read_excel("Control-FULL.xlsx")
-colnames(ctrlF)
-ctrlF_c = ctrlF %>% select(`%`, Q13, Q14, Q15)
-ctrlF_c = ctrlF_c[-1, ]
-names(ctrlF_c)[1] = "Accuracy"
-ctrlF_c$Treatment = 0
-
-dataF = rbind(trF_c, ctrlF_c)
-write.csv(dataF, "dataF.csv")
-tableF = fread("dataF.csv")
-open = c()
-for (i in nrow(tableF)) {
- open = ifelse(is.na(tableF$Q13), 0, 1)
-}
-open
-tableF$open = open
+# tr = read_excel("Treatment.xlsx")
+# colnames(tr)
+# tr_c = tr %>% select(`Accuracy in %`, Q13, Q14, Q15)
+# tr_c = tr_c[-1, ]
+# names(tr_c)[1] = "Accuracy"
+# tr_c$Treatment = 1
+# # write.csv(tr_c, "Treatment_c.csv")
+# # t = fread("Treatment_c.csv")
+# 
+# ctrl = read_excel("Control.xlsx")
+# colnames(ctrl)
+# ctrl_c = ctrl %>% select(`%`, Q13, Q14, Q15)
+# ctrl_c = ctrl_c[-1, ]
+# names(ctrl_c)[1] = "Accuracy"
+# ctrl_c$Treatment = 0
+# # write.csv(ctrl_c, "Control_c.csv")
+# # c = fread("Control_c.csv")
+# 
+# data = rbind(tr_c, ctrl_c)
+# write.csv(data, "data.csv")
+# table = fread("data.csv")
 ```
 
 2. Summary statistics

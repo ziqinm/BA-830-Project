@@ -1,7 +1,9 @@
 ---
 title: "BA 830 Experiment Report"
-author: " Cohort A Team 8: Huiying Ba, Danting Huang, Ziqin Ma, Jiao Sun, Senbo Zhang"
-output: html_notebook
+author: ' Cohort A Team 8: Huiying Ba, Danting Huang, Ziqin Ma, Jiao Sun, Senbo Zhang'
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 a. Your causal question of interest.
@@ -38,7 +40,7 @@ d. Summary statistics about the data.
 
 1. Load the data
 
-```{r}
+```{r message = FALSE, warning = FALSE, include = FALSE}
 library(data.table)
 library(tidyverse)
 library(readxl)
@@ -86,12 +88,12 @@ ggplot(c) +
   labs(x = "Habits")
 ```
 
-```{r}
+```{r message = FALSE}
 ggplot(t) +
   geom_histogram(aes(Accuracy))
 ```
 
-```{r}
+```{r  message = FALSE}
 ggplot(c) + 
   geom_histogram(aes(Accuracy))
 ```
@@ -99,35 +101,6 @@ ggplot(c) +
 -----------------------------
 
 e. Treatment effects
-
-
-```{r}
-trF = read_excel("Treatment-FULL.xlsx")
-colnames(trF)
-trF_c = trF %>% select(`Accuracy in %`, Q13, Q14, Q15)
-trF_c = trF_c[-1, ]
-names(trF_c)[1] = "Accuracy"
-trF_c$Treatment = 1
-
-
-ctrlF = read_excel("Control-FULL.xlsx")
-colnames(ctrlF)
-ctrlF_c = ctrlF %>% select(`%`, Q13, Q14, Q15)
-ctrlF_c = ctrlF_c[-1, ]
-names(ctrlF_c)[1] = "Accuracy"
-ctrlF_c$Treatment = 0
-
-dataF = rbind(trF_c, ctrlF_c)
-write.csv(dataF, "dataF.csv")
-tableF = fread("dataF.csv")
-open = c()
-for (i in nrow(tableF)) {
- open = ifelse(is.na(tableF$Q13), 0, 1)
-}
-open
-tableF$open = open
-```
-
 
 ```{r}
 summary(felm(Accuracy ~ Treatment, data = tableF))
