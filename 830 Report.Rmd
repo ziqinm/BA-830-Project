@@ -73,6 +73,12 @@ tableF$open = open
 2. Summary statistics
 
 ```{r}
+library(stargazer)
+stargazer(tableF, type = "text", title = "Descriptive Analysis", digits = 2, out = "des.txt")
+```
+
+
+```{r}
 t = tableF[Treatment == 1]
 ggplot(t) + 
   geom_boxplot(aes(x = Q14, y = Accuracy)) + 
@@ -101,11 +107,15 @@ ggplot(c) +
 e. Treatment effects
 
 ```{r}
-summary(felm(Accuracy ~ Treatment, data = tableF))
+reg1 = felm(Accuracy ~ Treatment, data = tableF)
+summary(reg1)
+stargazer(reg1, type = "text", out = "reg1.txt")
 ```
 
 ```{r}
-summary(felm(Accuracy ~ Treatment | Q14, data = tableF))
+reg2 = felm(Accuracy ~ Treatment | Q14, data = tableF)
+summary(reg2)
+stargazer(reg2, type = "text", out = "reg2.txt")
 ```
 Found that whether participants listen to music when studying is not a fixed effect in this experiment.
 
@@ -141,6 +151,8 @@ Example:
 [sample size too small]
 
 [Survey Design]: no sound in control's link, so participants in control group might be distracted or confused by the silence, thus reducing their time available to memorize. 
+
+
 
 
 
